@@ -15,3 +15,6 @@ If you wish to extend this with more features please feel free to [open a pr](ht
 
 * [VSC Language Extensions](https://code.visualstudio.com/api/language-extensions/overview)
 * [thinkScript Reference](https://tlc.thinkorswim.com/center/reference/thinkScript)
+
+## Disclaimer
+I am not afiliated in any way, shape or form (other than a client of) TD Ameritrade. I stole the icon off the net for use on the marketplace so it wouldn't look stupid.
