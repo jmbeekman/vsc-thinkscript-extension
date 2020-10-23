@@ -4,6 +4,11 @@ This is a quick and dirty syntax highlighter for the thinkScript language used b
 
 If you wish to extend this with more features please feel free to [open a pr](https://github.com/jmbeekman/vsc-thinkscript-extension).
 
+## Usage
+
+1. Follow the [VSC Quickstart](vsc-extension-quickstart.md) directions after cloning for a direct install. I will also publish this on the [extension marketplace](https://marketplace.visualstudio.com/search?term=thinkscript&target=VSCode&category=All%20categories&sortBy=Relevance).
+2. Start a new file with a `.tosts` extension and code.
+
 ## Reference
 
 * [VSC Language Extensions](https://code.visualstudio.com/api/language-extensions/overview)
