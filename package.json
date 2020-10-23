@@ -3,7 +3,7 @@
     "displayName": "thinkScript",
     "description": "Syntax highlighting for the thinkScript language for thinkorswim trading platform",
     "version": "0.0.1",
-    "publisher": "jaredmbeekman",
+    "publisher": "LethalArts",
     "homepage": "https://github.com/jmbeekman/vsc-thinkscript-extension",
     "repository": {
         "type": "git",
