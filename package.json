@@ -5,7 +5,7 @@
     "version": "0.0.3",
     "publisher": "LethalArts",
     "homepage": "https://github.com/jmbeekman/vsc-thinkscript-extension",
-    "icon": "/images/tosicon.jpg",
+    "icon": "images/tosicon.jpg",
     "repository": {
         "type": "git",
         "url": "https://github.com/jmbeekman/vsc-thinkscript-extension.git"
