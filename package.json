@@ -3,6 +3,12 @@
     "displayName": "thinkScript",
     "description": "Syntax highlighting for the thinkScript language for thinkorswim trading platform",
     "version": "0.0.1",
+    "publisher": "jaredmbeekman",
+    "homepage": "https://github.com/jmbeekman/vsc-thinkscript-extension",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jmbeekman/vsc-thinkscript-extension.git"
+    },
     "engines": {
         "vscode": "^1.50.0"
     },
@@ -10,16 +16,25 @@
         "Programming Languages"
     ],
     "contributes": {
-        "languages": [{
-            "id": "thinkscript",
-            "aliases": ["thinkScript", "thinkscript"],
-            "extensions": [".tosts"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "thinkscript",
-            "scopeName": "source.tosts",
-            "path": "./syntaxes/thinkscript.tmLanguage.json"
-        }]
+        "languages": [
+            {
+                "id": "thinkscript",
+                "aliases": [
+                    "thinkScript",
+                    "thinkscript"
+                ],
+                "extensions": [
+                    ".tosts"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "thinkscript",
+                "scopeName": "source.tosts",
+                "path": "./syntaxes/thinkscript.tmLanguage.json"
+            }
+        ]
     }
 }
