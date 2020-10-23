@@ -2,7 +2,7 @@
     "name": "tos-ts",
     "displayName": "thinkScript",
     "description": "Syntax highlighting for the thinkScript language for thinkorswim trading platform",
-    "version": "0.0.3",
+    "version": "1.0.0",
     "publisher": "LethalArts",
     "homepage": "https://github.com/jmbeekman/vsc-thinkscript-extension",
     "icon": "images/tosicon.jpg",
