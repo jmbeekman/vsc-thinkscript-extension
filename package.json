@@ -1,0 +1,25 @@
+{
+    "name": "tos-ts",
+    "displayName": "thinkScript",
+    "description": "Syntax highlighting for the thinkScript language for thinkorswim trading platform",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.50.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "thinkscript",
+            "aliases": ["thinkScript", "thinkscript"],
+            "extensions": [".tosts"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "thinkscript",
+            "scopeName": "source.tosts",
+            "path": "./syntaxes/thinkscript.tmLanguage.json"
+        }]
+    }
+}

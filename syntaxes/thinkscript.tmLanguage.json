@@ -1,0 +1,72 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "thinkScript",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#variables"
+		},
+		{
+			"include": "#constants"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.thinkscript",
+				"match": "\\b(above|ago|and|bar|bars|below|between|case|crosses|declare|def|default|do|else|equal|equals|false|fold|from|greater|if|input|is|less|no|not|or|plot|profile|rec|reference|script|switch|than|then|to|true|while|with|within|yes)\\b"
+			}]
+		},
+		"strings": {
+			"name": "string.quoted.double.thinkscript",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.thinkscript",
+					"match": "\\\\."
+				}
+			]
+		},
+		"comments": {
+			"patterns": [{
+				"name": "comment.line.number-sign.thinkscript",
+				"begin": "#",
+				"end": "\n"
+			}]
+		},
+		"constants": {
+			"patterns": [
+				{
+				"name": "constant.character",
+				"match": "(<|>|=|!|\\+|-|\/|\\*|%|&|;)"
+				},
+				{
+				"name": "constant.language",
+				"match": "\\b(AggregationPeriod|Alert|AverageType|ChartType|Color|CrossingDirection|Curve|Double|EarningTime|Events|FiscalPeriod|FundamentalType|MonkeyVolumeShowStyle|NumberFormat|OptionClass|OrderType|PaintingStrategy|PricePerRow|PriceType|ProfitLossMode|Sound)\\b"
+				},
+				{
+				"name": "constant.numeric",
+				"match": "\\b[0-9]+\\.?[0-9]*\\b"
+				}
+			]
+		},
+		"variables":{
+			"patterns": [
+				{
+				"name": "variable.language.tosts"	,
+				"match": "\\b(?i)(any|boolean|customcolor|double|idataholder|int|string|symbol)\\b"
+				}
+			]
+		}
+	},
+	"scopeName": "source.tosts"
+}
