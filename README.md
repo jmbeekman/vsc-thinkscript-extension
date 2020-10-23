@@ -6,8 +6,10 @@ If you wish to extend this with more features please feel free to [open a pr](ht
 
 ## Usage
 
-1. Follow the [VSC Quickstart](vsc-extension-quickstart.md) directions after cloning for a direct install. I will also publish this on the [extension marketplace](https://marketplace.visualstudio.com/search?term=thinkscript&target=VSCode&category=All%20categories&sortBy=Relevance).
-2. Start a new file with a `.tosts` extension and code.
+* Install
+  * [VSC Marketplace](https://marketplace.visualstudio.com/items?itemName=LethalArts.tos-ts)
+  * Follow the [VSC Quickstart](vsc-extension-quickstart.md) directions after cloning for a direct install.
+* Start a new file with a `.tosts` extension and code.
 
 ## Reference
 
