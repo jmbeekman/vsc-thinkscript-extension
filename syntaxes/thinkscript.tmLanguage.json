@@ -1,72 +1,387 @@
 {
-	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"name": "thinkScript",
-	"patterns": [
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#strings"
-		},
-		{
-			"include": "#comments"
-		},
-		{
-			"include": "#variables"
-		},
-		{
-			"include": "#constants"
-		}
-	],
-	"repository": {
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.thinkscript",
-				"match": "\\b(above|ago|and|bar|bars|below|between|case|crosses|declare|def|default|do|else|equal|equals|false|fold|from|greater|if|input|is|less|no|not|or|plot|profile|rec|reference|script|switch|than|then|to|true|while|with|within|yes)\\b"
-			}]
-		},
-		"strings": {
-			"name": "string.quoted.double.thinkscript",
-			"begin": "\"",
-			"end": "\"",
-			"patterns": [
-				{
-					"name": "constant.character.escape.thinkscript",
-					"match": "\\\\."
-				}
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "thinkScript",
+  "scopeName": "source.tosts",
+  "patterns": [
+    { "include": "#code" }
+  ],
+  "repository": {
+    "code": {
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#strings" },
+        { "include": "#number" },
+        { "include": "#operators" },
+        { "include": "#punctuation" },
+        { "include": "#keywords" },
+        { "include": "#known-enums" },
+        { "include": "#support" }
+      ]
+    },
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.tosts",
+          "begin": "#",
+          "end": "\n"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.tosts",
+          "match": "\\b(bar|bars|profile|rec|reference|script)\\b"
+        },
+        {
+          "name": "constant.language.tosts",
+          "match": "\\b(true|false|default|yes|no)\\b"
+        },
+        {
+          "name": "keyword.control.loop.tosts",
+          "match": "\\b(do|while|fold|to|from|with)\\b"
+        },
+        {
+          "name": "keyword.control.conditional.tosts",
+          "match": "\\b(if|case|then|else)\\b"
+        },
+        {
+          "name": "keyword.control.switch.tosts",
+          "match": "\b(switch)\b"
+        },
+        {
+          "name": "keyword.operator.logical.tosts keyword.operator.logical.comparison.tosts",
+          "match": "(?<!\\.)\\b(and|not|or|equal|equals|is|greater than|less than|within|between|above|below|ago|crosses)\\b(?![?!])"
+        },
+        {
+          "match": "\\b(def)\\s+([_[:alpha:]][_[:alnum:]]+)\\s*(\\=)",
+          "captures": {
+            "1": { "name": "keyword.control.def.tosts" },
+            "2": { "name": "entity.name.variable.local.tosts variable.other.definition.tosts variable.other.constant.tosts" },
+            "3": { "name": "keyword.operator.assignment.tosts" }
+          }
+        },
+        {
+          "match": "\\b(def)\\s+([_[:alpha:]][_[:alnum:]]+)\\b",
+          "captures": {
+            "1": { "name": "keyword.control.def" },
+            "2": { "name": "entity.name.variable.local.tosts variable.other.definition.tosts variable.other.definition.readwrite.tosts" },
+            "3": { "name": "keyword.operator.assignment.tosts" }
+          }
+        },
+        {
+          "match": "\\b(?:(input))\\b\\s*\\b([_[:alpha:]][_[:alnum:]]*)\\b",
+          "captures": {
+            "1": { "name": "keyword.other.const.tosts keyword.control.parameter.tosts" },
+            "2": { "name": "entity.name.variable.local.tosts variable.parameter.tosts" }
+          }
+        },
+        {
+          "match": "\\b(?:(declare))\\b\\s*\\b([_[:alpha:]][_[:alnum:]]*)\\b",
+          "captures": {
+            "1": {
+              "name": "keyword.preprocessor.define.tosts keyword.control.directive.define.tosts"
+            },
+            "2": {
+              "name": "entity.name.variable.preprocessor.symbol.tosts"
+            }
+          }
+        },
+        {
+          "match": "\\b(?:(plot))\\b\\s*\\b([_[:alpha:]][_[:alnum:]]*)\\b",
+          "captures": {
+            "1": { "name": "storage.modifier.plot.tosts keyword.control.yield.plot.tosts" },
+            "2": { "name": "entity.name.variable.local.tosts variable.other.definition.tosts" }
+          }
+        }
+      ]
+    },
+    "known-enums": {
+      "patterns": [
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(Double|double)\\.(E|NaN|NEGATIVE_INFINITY|Pi|POSITIVE_INFINITY)\\b",
+          "captures": { "1": { "name": "storage.type.interface support.class.builtin" }, "2": { "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(AggregationPeriod)\\.(MIN|TWO_MIN|THREE_MIN|FOUR_MIN|FIVE_MIN|TEN_MIN|FIFTEEN_MIN|TWENTY_MIN|THIRTY_MIN|HOUR|TWO_HOURS|FOUR_HOURS|DAY|TWO_DAYS|THREE_DAYS|FOUR_DAYS|WEEK|MONTH|OPT_EXP|QUARTER|YEAR)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(Alert)\\.(BAR|ONCE|TICK)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(AverageType)\\.(EXPONENTIAL|HULL|SIMPLE|WEIGHTED|WILDERS)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(ChartType)\\.(BAR|CANDLE|CANDLE_TREND|HEIKIN_ASHI|EQUIVOLUME|LINE|AREA)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(Color)\\.(BLACK|BLUE|CURRENT|CYAN|DARK_GRAY|DARK_GREEN|DARK_ORANGE|DARK_RED|DOWNTICK|GRAY|GREEN|LIGHT_GRAY|LIGHT_GREEN|LIGHT_ORANGE|LIGHT_RED|LIME|MAGENTA|ORANGE|PINK|PLUM|RED|UPTICK|VIOLET|WHITE|YELLOW)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(CrossingDirection)\\.(ABOVE|BELOW|ANY)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(Curve)\\.(FIRM|LONG_DASH|MEDIUM_DASH|SHORT_DASH|POINTS)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(EarningTime)\\.(ANY|BEFORE_MARKET|AFTER_MARKET)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(Events)\\.(CONFERENCE_CALL|DIVIDEND|EARNINGS|SPLIT)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(FiscalPeriod)\\.(QUARTER|YEAR)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(FundamentalType)\\.(HIGH|LOW|CLOSE|OPEN|HL2|HLC3|OHLC4|VWAP|VOLUME|OPEN_INTEREST|IMP_VOLATILITY|TICK_COUNT)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(MonkeyVolumeShowStyle)\\.(ALL|LAST|NONE)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(NumberFormat)\\.(DOLLAR|THREE_DECIMAL_PLACES|TWO_DECIMAL_PLACES)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(OptionsClass)\\.(CALL|PUT)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(OrderType)\\.(BUY_AUTO|BUY_TO_CLOSE|BUY_TO_OPEN|SELL_AUTO|SELL_TO_CLOSE|SELL_TO_OPEN)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(PaintingStrategy)\\.(ARROW_DOWN|ARROW_UP|BOOLEAN_ARROW_DOWN|BOOLEAN_ARROW_UP|BOOLEAN_POINTS|BOOLEAN_WEDGE_DOWN|BOOLEAN_WEDGE_UP|DASHES|HISTOGRAM|HORIZONTAL|LINE|LINE_VS_POINTS|LINE_VS_SQUARES|LINE_VS_TRIANGLES|POINTS|SQUARED_HISTOGRAM|SQUARES|TRIANGLES|VALUES_ABOVE|VALUES_BELOW)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(PricePerRow)\\.(AUTOMATIC|TICKSIZE)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(PriceType)\\.(ASK|BID|LAST|MARK)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(ProfitLossMode)\\.(COST_BASIS|EXECUTION_PRICE)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        },
+        {
+          "name": "variable.other.constant variable.other.enummember entity.name.variable.enum-member",
+          "match": "\\b(Sound)\\.(NoSound|Bell|Ding|Ring|Chimes)\\b",
+          "captures": { "1": { "name": "meta.enum entity.name.type.enum" }, "2": { "name": "variable.other.constant variable.other.enummember support.constant entity.name.variable.enum-member support.constant" } }
+        }
 			]
-		},
-		"comments": {
-			"patterns": [{
-				"name": "comment.line.number-sign.thinkscript",
-				"begin": "#",
-				"end": "\n"
-			}]
-		},
-		"constants": {
-			"patterns": [
-				{
-				"name": "constant.character",
-				"match": "(<|>|=|!|\\+|-|\/|\\*|%|&|;)"
-				},
-				{
-				"name": "constant.language",
-				"match": "\\b(AggregationPeriod|Alert|AverageType|ChartType|Color|CrossingDirection|Curve|Double|EarningTime|Events|FiscalPeriod|FundamentalType|MonkeyVolumeShowStyle|NumberFormat|OptionClass|OrderType|PaintingStrategy|PricePerRow|PriceType|ProfitLossMode|Sound)\\b"
-				},
-				{
-				"name": "constant.numeric",
-				"match": "\\b[0-9]+\\.?[0-9]*\\b"
-				}
-			]
-		},
-		"variables":{
-			"patterns": [
-				{
-				"name": "variable.language.tosts"	,
-				"match": "\\b(?i)(any|boolean|customcolor|double|idataholder|int|string|symbol)\\b"
-				}
-			]
-		}
-	},
-	"scopeName": "source.tosts"
+    },
+    "number": {
+      "patterns": [
+        {
+          "name": "constant.numeric.tosts",
+          "match": "\\b[0-9]+\\.?[0-9]*\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "match": "(==|!=|<=|>=|<>|<|>)",
+          "name": "keyword.operator.comparison.tosts"
+        },
+        {
+          "match": "(?<!=|!)(=)(?!=)",
+          "name": "keyword.operator.assignment.tosts"
+        },
+        {
+          "match": "(!|\\+|-|\/|\\*|%)",
+          "name": "keyword.operator.arithmetic.tosts"
+        },
+        {
+          "match": "\\&|\\|",
+          "name": "keyword.operator.bitwise.tosts"
+        },
+        {
+          "match": "\\!|&&|\\|\\|",
+          "name": "keyword.operator.logical.tosts"
+        },
+        {
+          "match": "=",
+          "name": "punctuation.separator.equals.tosts"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.separator.delimiter.tosts punctuation.separator.comma.tosts",
+          "match": ","
+        },
+        {
+          "name": "punctuation.terminator.statement.tosts",
+          "match": ";"
+        },
+        {
+          "name": "punctuation.accessor.tosts",
+          "match": "(?<=\\b\\w+)\\."
+        },
+        {
+          "begin": "(?<=\\b\\w+)\\(",
+          "beginCaptures": {
+            "0": { "name": "function.punctuation.parenthesis.open.tosts" }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": { "name": "function.punctuation.parenthesis.close.tosts" }
+          },
+          "patterns": [
+            {
+              "include": "#code"
+            }
+          ]
+        },
+        {
+          "begin": "\\(",
+          "beginCaptures": {
+            "0": { "name": "punctuation.parenthesis.open.tosts"  }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": { "name": "punctuation.parenthesis.close.tosts" }
+          },
+          "patterns": [
+            {
+              "include": "#code"
+            }
+          ]
+        },
+        {
+          "begin": "(\\b\\w+\\b)(\\[)",
+          "beginCaptures": {
+            "1": { "name": "storage.type.array.tosts storage.type.object.array.tosts variable.array variable.object.array.tosts" },
+            "2": { "name": "punctuation.begin.bracket.square.tosts punctuation.bracket.square.open.tosts array.indexer.bracket.square.open.tosts" }
+          },
+          "end": "\\s*(\\b[0-9]+\\b)\\s*(\\])",
+          "endCaptures": {
+            "1": { "name": "constant.numeric.integer.tosts" },
+            "2": { "name": "punctuation.end.bracket.square.tosts punctuation.bracket.square.close.tosts array.indexer.bracket.square.close.tosts" }
+          },
+          "patterns": [
+            {
+              "include": "#code"
+            }
+          ]
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.tosts",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.tosts",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "support": {
+      "patterns": [
+        {
+          "match": "\\b(ask|bid|close|high|hl2|hlc3|imp_volatility|low|ohlc4|open|open_interest|tick_count|volume|vwap)\\b",
+          "name": "support.function.builtin.tosts"
+        },
+        {
+          "name": "support.type.primitive.tosts support.class.builtin.tosts support.class.tosts",
+          "match": "\\b(Any|Boolean|Double|Int|String|Symbol)(?:(?=\\.))"
+        },
+        {
+          "name": "support.type.primitive.tosts",
+          "match": "(?i)\\b(Any|Boolean|Double|Int|String|Symbol)\\b"
+        },
+        {
+          "name": "storage.type.interface.tosts support.class.builtin.tosts",
+          "match": "\\b(CustomColor|IDataHolder|AggregationPeriod|Alert|AverageType|ChartType|Color|CrossingDirection|Curve|Double|EarningTime|Events|FiscalPeriod|FundamentalType|MonkeyVolumeShowStyle|NumberFormat|OptionClass|OrderType|PaintingStrategy|PricePerRow|PriceType|ProfitLossMode|Sound)(?:(?=\\.))"
+        },
+        {
+          "name": "support.type.builtin.tosts support.class.tosts",
+          "match": "\\b(CustomColor|IDataHolder|AggregationPeriod|Alert|AverageType|ChartType|Color|CrossingDirection|Curve|Double|EarningTime|Events|FiscalPeriod|FundamentalType|MonkeyVolumeShowStyle|NumberFormat|OptionClass|OrderType|PaintingStrategy|PricePerRow|PriceType|ProfitLossMode|Sound)\\b"
+        },
+        {
+          "name": "support.function.math.tosts",
+          "match": "\\b(AbsValue|ACos|ASin|ATan|Ceil|Cos|Crosses|Exp|Floor|IsInfinite|IsNaN|Lg|Log|Max|Min|Power|Random|Round|RoundDown|RoundUp|Sign|Sin|Sqr|Sqrt|Sum|Tan|TotalSum|absValue|aCos|aSin|aTan|isInfinite|isNaN|roundDown|roundUp|totalSum)\\b(?=\\()"
+        },
+        {
+          "name": "support.function.option-related.tosts entity.name.function.tosts entity.name.function.tosts",
+          "match": "\\b(?i)(Delta|Gamma|GetATMOption|GetDaysToExpiration|GetNextExpirationOption|GetNextITMOption|GetNextOTMOption|GetStrike|GetUnderlyingSymbol|IsEuropean|IsOptionable|IsPut|OptionPrice|Rho|Theta|Vega)\\b(?=\\()"
+        },
+        {
+          "name": "support.function.technical-analysis.tosts entity.name.function.tosts",
+          "match": "\\b(?i)(AccumDist|Average|BodyHeight|EMA2|ExpAverage|FastKCustom|GetMarketMakerMove|GetMaxValueOffset|GetMinValueOffset|Highest|HighestAll|HighestWeighted|IsAscending|IsDescending|IsDoji|IsLongBlack|IsLongWhite|Lowest|LowestAll|LowestWeighted|Median|MidBodyVal|MoneyFlow|MovingAverage|TrueRange|Ulcer|WildersAverage|WMA)\\b(?=\\()"
+        },
+        {
+          "name": "support.function.statistical.tosts entity.name.function.tosts",
+          "match": "\\b(?i)(Correlation|Covariance|Inertia|InertiaAll|LinDev|StDev|StDevAll|StErr|StErrAll)\\b(?=\\()"
+        },
+        {
+          "name": "support.function.datetime.tosts entity.name.function.tosts",
+          "match": "\\b(?i)(CountTradingDays|DaysFromDate|DaysTillDate|GetDay|GetDayOfMonth|GetDayOfWeek|GetLastDay|GetLastMonth|GetLastWeek|GetLastYear|GetMonth|GetTime|GetWeek|GetYear|GetYYYYMMDD|RegularTradingEnd|RegularTradingStart|SecondsFromTime|SecondsTillTime)\\b(?=\\()"
+        },
+        {
+          "name": "support.function.corporate-actions.tosts entity.name.function.tosts",
+          "match": "\\b(?i)(GetActualEarnings|GetDividend|GetEstimatedEarnings|GetEventOffset|GetSplitDenominator|GetSplitNumerator|HasConferenceCall|HasEarnings)\\b(?=\\()"
+        },
+        {
+          "name": "support.function.appearance.tosts entity.name.function.tosts",
+          "match": "\\b(?i)(AddChartBubble|AddCloud|AddLabel|AddVerticalLine|AssignBackgroundColor|AssignNormGradientColor|AssignPriceColor|AssignValueColor|Color|CreateColor|DefineColor|DefineGlobalColor|EnableApproximation|GetColor|GlobalColor|Hide|HideBubble|HidePricePlot|HideTitle|SetChartType|SetDefaultColor|SetHiding|SetLineWeight|SetPaintingStrategy|SetStyle|TakeValueColor)\\b(?=\\()"
+        },
+        {
+          "name": "support.function.portfolio.tosts entity.name.function.tosts",
+          "match": "\\b(?i)(GetAveragePrice|GetNetLiq|GetOpenPL|GetQuantity|GetTotalCash)\\b(?=\\()"
+        },
+        {
+          "name": "support.function.profiles.tosts entity.name.function.tosts",
+          "match": "\\b(?i)(DataProfile|GetHighest|GetHighestValueArea|GetLowest|GetLowestValueArea|GetPointOfControl|MonkeyBars|Show|TimeProfile|VolumeProfile)\\b(?=\\()"
+        },
+        {
+          "name": "support.function.fundamentals.tosts entity.name.function.tosts",
+          "match": "\\b(?i)(BookValuePerShare|CurrentRatio|DividendPayout|DividendsPerShareTTM|EarningsPerShareTTM|FinancialLeverage|FixedChargeCoverageRatio|FreeCashFlowPerShare|GrossProfitMargin|InterestRate|InventoryTurnover|LongTermDebtToCapital|NetProfitMargin|OperatingProfitMargin|QuickRatio|ReturnOnAssets|ReturnOnEquity|SalesPerShare|TaxRate|TotalAssetTurnover)\\b(?=\\()"
+        },
+        {
+          "name": "support.function.utility.tosts entity.name.function.tosts",
+          "match": "\\b(AddOrder|Alert|AsDollars|AsPercent|AsPrice|Assert|AsText|BarNumber|Between|CompoundValue|Concat|EntryPrice|First|FPL|Fundamental|GetAggregationPeriod|GetInterestRate|GetPriceType|GetSymbol|GetSymbolPart|GetValue|GetYield|HasContractChangeEvent|If|TickSize|TickValue|addOrder|asDollars|asPercent|asPrice|asText|barNumber|compoundValue|entryPrice|getAggregationPeriod|getInterestRate|getPriceType|getSymbol|getSymbolPart|getValue|getYield|hasContractChangeEvent|tickSize|tickValue)\\b(?=\\()"
+        }
+      ]
+    }
+  }
 }

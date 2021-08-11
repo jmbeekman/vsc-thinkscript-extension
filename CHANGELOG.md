@@ -6,4 +6,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+- [1.1.0] - Derek Ziemba:
+  - Completely redid the language definition file and vastly improved colorizations
+  - Added highlighting to documented functions and types
+  - Added example image and example tokenColorCustomizations to README
 - Initial release
